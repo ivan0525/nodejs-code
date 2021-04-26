@@ -159,3 +159,5 @@ class CpuOverload {
     return cpuStr.trim();
   }
 }
+
+module.exports = CpuOverload;
