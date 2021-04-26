@@ -24,11 +24,16 @@ const server = http.createServer(async (req, res) => {
   if (!routerMapping[pathname]) {
     return baseFn.setResInfo(res, false, 'path not found', null, 404);
   }
+
+  // 请求拦截，避免cpu过载
+  if (!cpuOverload.isAvailable(pathname)) {
+    return baseFn.setResInfo(res, false, 'server error', null, 503);
+  }
 });
 
 // 启动服务
 server.listen('3000', () => {
-  console.log('server start http://127.0.0.1"3000');
+  console.log('server start http://127.0.0.1:3000');
 });
 
 cpuOverload.check().then().catch((err) => {
